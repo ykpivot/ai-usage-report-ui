@@ -17,6 +17,7 @@ export class ReportComponent implements OnInit {
   dataSource = ELEMENT_DATA;
   columnsToDisplay = ['org', 'lowerEnvironmentMaxInstances', 'upperEnvironmentMaxInstances'];
   expandedElement: AIReportElement | null;
+  reportMonths = [ '01/2019', '02/2019', '03/2019' ];
   constructor() { }
 
   ngOnInit() {

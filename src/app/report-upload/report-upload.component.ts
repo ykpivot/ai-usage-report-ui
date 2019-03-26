@@ -18,8 +18,8 @@ export class ReportUploadComponent implements OnInit {
   ngOnInit() {
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      console.log('ImageUpload:uploaded:', item, status, response);
-      alert('File uploaded successfully');
+      console.log('Report uploaded:', item, status, response);
+      alert('54 records were uploaded successfully');
     };
   }
 }
