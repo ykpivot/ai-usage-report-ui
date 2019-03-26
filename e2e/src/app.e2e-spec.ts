@@ -8,9 +8,11 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display the report table', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to ai-usage-report-ui!');
+
+    expect(page.getTitleText()).toEqual('AI Usage Report');
+    expect(page.getReportTable().isPresent()).toBeTruthy();
   });
 
   afterEach(async () => {
