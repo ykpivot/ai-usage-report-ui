@@ -1,0 +1,9 @@
+<mat-card class="example-card">
+  <input type="file" name="photo" ng2FileSelect [uploader]="uploader"/>
+
+  <button type="button" class="mat-button mat-raised-button mat-primary"
+          (click)="uploader.uploadAll()"
+          [disabled]="!uploader.getNotUploadedItems().length">
+    Upload an AI usage report
+  </button>
+</mat-card>
