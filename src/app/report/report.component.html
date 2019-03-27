@@ -7,9 +7,9 @@
 
       <mat-form-field>
         <mat-label>Report Month</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let month of reportMonths" [value]="month">
-            {{ month }}
+        <mat-select required [(ngModel)]="selectedReportDate">
+          <mat-option *ngFor="let date of reportDates" [value]="date">
+            {{ date }}
           </mat-option>
         </mat-select>
       </mat-form-field>

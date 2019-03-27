@@ -8,6 +8,8 @@ import { MatButtonModule, MatCardModule, MatSelectModule, MatTableModule, MatToo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReportUploadComponent } from './report-upload/report-upload.component';
 import { FileSelectDirective } from 'ng2-file-upload';
+import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,13 +20,15 @@ import { FileSelectDirective } from 'ng2-file-upload';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatTableModule,
     MatButtonModule,
     MatCardModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

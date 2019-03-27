@@ -2,12 +2,13 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ReportComponent} from './report.component';
 import {AppRoutingModule} from '../app-routing.module';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCardModule, MatSelectModule, MatTableModule, MatToolbarModule} from '@angular/material';
 import {ReportUploadComponent} from '../report-upload/report-upload.component';
 import {FileUploadModule} from 'ng2-file-upload';
 import {AIReportElement, ReportService} from './report.service';
 import {Observable, of} from 'rxjs';
+import {FormsModule} from '@angular/forms';
 
 describe('ReportComponent', () => {
   let component: ReportComponent;
@@ -22,11 +23,12 @@ describe('ReportComponent', () => {
       ],
       providers: [
         ReportComponent,
-        { provide: ReportService, useClass: MockReportService }
+        {provide: ReportService, useClass: MockReportService}
       ],
       imports: [
         AppRoutingModule,
-        NoopAnimationsModule,
+        BrowserAnimationsModule,
+        FormsModule,
         MatToolbarModule,
         MatTableModule,
         MatButtonModule,
@@ -41,16 +43,27 @@ describe('ReportComponent', () => {
     reportService = TestBed.get(ReportService);
   }));
 
-  it('should populate report date dropdown', () => {
+  it('should populate the report date dropdown', () => {
+    component.ngOnInit();
     fixture.detectChanges();
+
     const element: HTMLElement = fixture.nativeElement;
-    expect(element.textContent).toContain('hello');
+    expect(element.querySelector('.mat-select-value').textContent).toContain('hello');
   });
 
 });
 
 class MockReportService {
-  public getReportAvailableDates(): Observable<AIReportElement[]> {
+  public getReportAvailableDates(): Observable<string[]> {
+    const dates = [
+      '2019-3',
+      '2019-2'
+    ];
+
+    return of(dates);
+  }
+
+  public getReportData(): Observable<AIReportElement[]> {
 
     const reportElement = new AIReportElement();
     reportElement.org = 'MyOrg';

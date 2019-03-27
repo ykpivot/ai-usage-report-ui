@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {AIReportElement} from './report.service';
+import {AIReportElement, ReportService} from './report.service';
 
 @Component({
   selector: 'app-report',
@@ -15,15 +15,24 @@ import {AIReportElement} from './report.service';
   ]
 })
 export class ReportComponent implements OnInit {
-  dataSource = [];
+  dataSource: AIReportElement[];
   columnsToDisplay = ['org', 'lowerEnvironmentMaxInstances', 'upperEnvironmentMaxInstances'];
   expandedElement: AIReportElement | null;
-  reportMonths = [ '01/2019', '02/2019', '03/2019' ];
+  reportDates: string[];
+  selectedReportDate: string;
 
-  constructor() { }
+  constructor(private reportService: ReportService) { }
 
   ngOnInit() {
-    
+    this.getReportDates();
+  }
+
+  getReportDates(): void {
+    this.reportService.getReportAvailableDates()
+      .subscribe(dates => {
+        this.reportDates = dates;
+        this.selectedReportDate = dates[0];
+      });
   }
 
 }
@@ -345,7 +354,7 @@ export class ReportComponent implements OnInit {
 //         app: 'RealApp',
 //         instances: 1
 //       },
-//       {
+//   ]    {
 //         foundation: 'PROD',
 //         space: 'Test Space',
 //         app: 'InnerSpace',
