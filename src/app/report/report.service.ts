@@ -7,20 +7,22 @@ import {HttpClient} from '@angular/common/http';
 })
 export class ReportService {
 
+  API_URL = 'https://usage-data.cf.grogscave.net/v1/';
+
   constructor(private http: HttpClient) {
   }
 
-  getReportData(dateRange: string): Observable<AIReportElement[]> {
-    return this.http.get<AIReportElement[]>(`https://backend.cf.com/v1/report/${dateRange}`);
+  getReportData(date: string): Observable<AIReportElement[]> {
+    return this.http.get<AIReportElement[]>(`${this.API_URL}report/${date.replace('-', '/')}`);
   }
 
   getReportAvailableDates(): Observable<string[]> {
-    return this.http.get<string[]>('https://backend.cf.com/v1/availabledates');
+    return this.http.get<string[]>(`${this.API_URL}report/availabledates`);
   }
 }
 
 export class AIReportElement {
-  org: string;
+  organizationName: string;
   lowerEnvironmentMaxInstances: number;
   upperEnvironmentMaxInstances: number;
   lowerDetails: AIReportDetailElement[];
@@ -28,8 +30,8 @@ export class AIReportElement {
 }
 
 export class AIReportDetailElement {
-  foundation: string;
-  space: string;
-  app: string;
-  instances: number;
+  platform: string;
+  spaceName: string;
+  appName: string;
+  maxInstances: number;
 }

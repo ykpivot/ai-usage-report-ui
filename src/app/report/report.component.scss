@@ -53,9 +53,20 @@ tr.report-element-row:not(.report-expanded-row):active {
   .detail-info {
     display: flex;
     flex-direction: row;
-    padding-bottom: 8px;
+    padding: 4px 0px;
+    border-bottom: 1px solid #fafafa;
+
+    .app-detail {
+      text-align: left;
+      font-size: 0.85em;
+
+      .app-name {
+        font-weight: bold;
+      }
+    }
 
     .pull-right {
+      width: 10%;
       margin-left: auto;
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {AIReportElement, ReportService} from './report.service';
 
@@ -21,10 +21,15 @@ export class ReportComponent implements OnInit {
   reportDates: string[];
   selectedReportDate: string;
 
-  constructor(private reportService: ReportService) { }
+  constructor(private reportService: ReportService) {
+  }
 
   ngOnInit() {
     this.getReportDates();
+  }
+
+  dateChanged(selectedDate) {
+    this.getReportData(selectedDate.value);
   }
 
   getReportDates(): void {
@@ -32,9 +37,17 @@ export class ReportComponent implements OnInit {
       .subscribe(dates => {
         this.reportDates = dates;
         this.selectedReportDate = dates[0];
+        this.getReportData(this.selectedReportDate);
       });
   }
 
+  getReportData(date) {
+    this.reportService.getReportData(date)
+      .subscribe(data => {
+        console.log(data);
+        this.dataSource = data;
+      });
+  }
 }
 
 // export interface AIReportElement {

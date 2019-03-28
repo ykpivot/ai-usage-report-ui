@@ -24,29 +24,29 @@ describe('ReportServiceService', () => {
 
         const stubReponse = [
           {
-            org: 'Some org',
+            organizationName: 'Some org',
             lowerEnvironmentMaxInstances: 12,
             upperEnvironmentMaxInstances: 8,
             lowerDetails: [
               {
-                foundation: 'Dev',
-                space: 'Test Space',
-                app: 'Test App',
-                instances: 3
+                platform: 'Dev',
+                spaceName: 'Test Space',
+                appName: 'Test App',
+                maxInstances: 3
               }
             ],
             upperDetails: [
               {
-                foundation: 'STAG',
-                space: 'Real Space',
-                app: 'TheTrueApp',
-                instances: 2
+                platform: 'STAG',
+                spaceName: 'Real Space',
+                appName: 'TheTrueApp',
+                maxInstances: 2
               },
               {
-                foundation: 'STAG',
-                space: 'OuterSpace',
-                app: 'RealApp',
-                instances: 1
+                platform: 'STAG',
+                spaceName: 'OuterSpace',
+                appName: 'RealApp',
+                maxInstances: 1
               }
             ]
           }
@@ -54,10 +54,10 @@ describe('ReportServiceService', () => {
 
         service.getReportData('2019-3').subscribe(response => {
           expect(response.length).toBe(1);
-          expect(response[0].org).toBe('Some org');
+          expect(response[0].organizationName).toBe('Some org');
         });
 
-        const req = httpMock.expectOne('https://backend.cf.com/v1/report/2019-3');
+        const req = httpMock.expectOne('https://usage-data.cf.grogscave.net/v1/report/2019/3');
         expect(req.request.method).toEqual('GET');
 
         req.flush(stubReponse);
@@ -79,7 +79,7 @@ describe('ReportServiceService', () => {
           expect(response[1]).toBe('2019-02');
         });
 
-        const req = httpMock.expectOne('https://backend.cf.com/v1/availabledates');
+        const req = httpMock.expectOne('https://backend.cf.com/v1/report/availabledates');
         expect(req.request.method).toEqual('GET');
 
         req.flush(stubReponse);
