@@ -29,8 +29,10 @@ export class ReportService {
   }
 
   private downloadReport(type: string, date: string, apiUrl): Observable<string> {
-    // @ts-ignore
-    return this.http.get<string>(`${apiUrl}download/${type}/${this.convertDateFormat(date)}`, { responseType: 'text'});
+    const requestOptions: object = {
+      responseType: 'text'
+    };
+    return this.http.get<string>(`${apiUrl}download/${type}/${this.convertDateFormat(date)}`, requestOptions);
   }
 
   private convertDateFormat(date: string): string {
