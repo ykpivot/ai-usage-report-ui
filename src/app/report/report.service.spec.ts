@@ -97,7 +97,8 @@ describe('ReportService', () => {
         });
 
         const req = httpMock.expectOne('https://usage-data.cf.grogscave.net/v1/download/billing/2018/12');
-        expect(req.request.method).toEqual('GET');
+        expect(req.request.method).toEqual('GET')
+        expect(req.request.responseType).toEqual('text');
 
         req.flush(stubReponse);
       })
@@ -115,6 +116,7 @@ describe('ReportService', () => {
 
         const req = httpMock.expectOne('https://usage-data.cf.grogscave.net/v1/download/detail/2018/12');
         expect(req.request.method).toEqual('GET');
+        expect(req.request.responseType).toEqual('text');
 
         req.flush(stubReponse);
       })

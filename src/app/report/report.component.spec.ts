@@ -12,10 +12,11 @@ import {FormsModule} from '@angular/forms';
 
 describe('ReportComponent', () => {
   let component: ReportComponent;
-  let reportService: ReportService;
   let fixture: ComponentFixture<ReportComponent>;
+  let mockReportService: MockReportService;
 
   beforeEach(async(() => {
+    mockReportService = new MockReportService();
     TestBed.configureTestingModule({
       declarations: [
         ReportComponent,
@@ -23,7 +24,7 @@ describe('ReportComponent', () => {
       ],
       providers: [
         ReportComponent,
-        {provide: ReportService, useClass: MockReportService}
+        {provide: ReportService, useValue: mockReportService}
       ],
       imports: [
         AppRoutingModule,
@@ -40,7 +41,6 @@ describe('ReportComponent', () => {
 
     fixture = TestBed.createComponent(ReportComponent);
     component = fixture.componentInstance;
-    reportService = TestBed.get(ReportService);
   }));
 
   it('should populate the report date dropdown', () => {
@@ -56,9 +56,31 @@ describe('ReportComponent', () => {
     expect(component.dataSource[0].organizationName).toBe('ANOTHER-ORG');
   });
 
+  it('should call downloadSummaryReport, when download button is clicked', () => {
+    expect(mockReportService.downloadSummaryCalled).toBeFalsy();
+
+    fixture.debugElement.nativeElement.querySelector('.download-summary').click();
+    expect(mockReportService.downloadSummaryCalled).toBeTruthy();
+  });
+
+  it('should call downloadDetailReport, when download button is clicked', () => {
+    expect(mockReportService.downloadDetailCalled).toBeFalsy();
+
+    fixture.debugElement.nativeElement.querySelector('.download-detail').click();
+    expect(mockReportService.downloadDetailCalled).toBeTruthy();
+  });
+
 });
 
 class MockReportService {
+  public downloadSummaryCalled: boolean;
+  public downloadDetailCalled: boolean;
+
+  constructor() {
+    this.downloadSummaryCalled = false;
+    this.downloadDetailCalled = false;
+  }
+
   public getReportAvailableDates(): Observable<string[]> {
     const dates = [
       '2019-3',
@@ -80,5 +102,13 @@ class MockReportService {
     reportElement.upperEnvironmentMaxInstances = 2;
 
     return of([reportElement]);
+  }
+
+  public downloadSummaryReport() {
+    this.downloadSummaryCalled = true;
+  }
+
+  public downloadDetailReport() {
+    this.downloadDetailCalled = true;
   }
 }
