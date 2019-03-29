@@ -29,7 +29,22 @@ export class ReportComponent implements OnInit {
   }
 
   dateChanged(selectedDate) {
-    this.getReportData(selectedDate.value);
+    this.selectedReportDate = selectedDate.value;
+    this.getReportData(this.selectedReportDate);
+  }
+
+  downloadSummaryReport() {
+    this.reportService.downloadSummaryReport(this.selectedReportDate)
+      .subscribe(data => {
+        this.downloadReport('summary', this.selectedReportDate, data);
+      });
+  }
+
+  downloadDetailReport() {
+    this.reportService.downloadDetailReport(this.selectedReportDate)
+      .subscribe(data => {
+        this.downloadReport('detail', this.selectedReportDate, data);
+      });
   }
 
   getReportDates(): void {
@@ -46,5 +61,14 @@ export class ReportComponent implements OnInit {
       .subscribe(data => {
         this.dataSource = data;
       });
+  }
+
+  private downloadReport(type: string, date: string, reportData: string) {
+    const csvData = new Blob([reportData], {type: 'text/csv'});
+    const downloadURL = window.URL.createObjectURL(csvData);
+    const link = document.createElement('a');
+    link.href = downloadURL;
+    link.download = `ai-usage-${type}-report-${date}.csv`;
+    link.click();
   }
 }

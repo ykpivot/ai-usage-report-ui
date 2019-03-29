@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +13,28 @@ export class ReportService {
   }
 
   getReportData(date: string): Observable<AIReportElement[]> {
-    return this.http.get<AIReportElement[]>(`${this.API_URL}report/${date.replace('-', '/')}`);
+    return this.http.get<AIReportElement[]>(`${this.API_URL}report/${this.convertDateFormat(date)}`);
   }
 
   getReportAvailableDates(): Observable<string[]> {
     return this.http.get<string[]>(`${this.API_URL}report/availabledates`);
+  }
+
+  downloadSummaryReport(date: string): Observable<string> {
+    return this.downloadReport('billing', date, this.API_URL);
+  }
+
+  downloadDetailReport(date: string): Observable<string> {
+    return this.downloadReport('detail', date, this.API_URL);
+  }
+
+  private downloadReport(type: string, date: string, apiUrl): Observable<string> {
+    // @ts-ignore
+    return this.http.get<string>(`${apiUrl}download/${type}/${this.convertDateFormat(date)}`, { responseType: 'text'});
+  }
+
+  private convertDateFormat(date: string): string {
+    return date.replace('-', '/');
   }
 }
 

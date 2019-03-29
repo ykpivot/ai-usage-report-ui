@@ -85,4 +85,38 @@ describe('ReportService', () => {
         req.flush(stubReponse);
       })
   );
+
+  it('should get a summary report for download',
+    inject([HttpTestingController, ReportService],
+      (httpMock: HttpTestingController, service: ReportService) => {
+
+        const stubReponse = 'report,data,in,cvs,format';
+
+        service.downloadSummaryReport('2018-12').subscribe(response => {
+          expect(response).toBe('report,data,in,cvs,format');
+        });
+
+        const req = httpMock.expectOne('https://usage-data.cf.grogscave.net/v1/download/billing/2018/12');
+        expect(req.request.method).toEqual('GET');
+
+        req.flush(stubReponse);
+      })
+  );
+
+  it('should get a detail report for download',
+    inject([HttpTestingController, ReportService],
+      (httpMock: HttpTestingController, service: ReportService) => {
+
+        const stubReponse = 'detail,report,data,in,cvs,format';
+
+        service.downloadDetailReport('2018-12').subscribe(response => {
+          expect(response).toBe('detail,report,data,in,cvs,format');
+        });
+
+        const req = httpMock.expectOne('https://usage-data.cf.grogscave.net/v1/download/detail/2018/12');
+        expect(req.request.method).toEqual('GET');
+
+        req.flush(stubReponse);
+      })
+  );
 });
