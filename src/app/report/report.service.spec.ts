@@ -3,7 +3,7 @@ import {inject, TestBed} from '@angular/core/testing';
 import {ReportService} from './report.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
-describe('ReportServiceService', () => {
+describe('ReportService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -79,7 +79,7 @@ describe('ReportServiceService', () => {
           expect(response[1]).toBe('2019-02');
         });
 
-        const req = httpMock.expectOne('https://backend.cf.com/v1/report/availabledates');
+        const req = httpMock.expectOne('https://usage-data.cf.grogscave.net/v1/report/availabledates');
         expect(req.request.method).toEqual('GET');
 
         req.flush(stubReponse);

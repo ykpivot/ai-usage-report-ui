@@ -44,11 +44,16 @@ describe('ReportComponent', () => {
   }));
 
   it('should populate the report date dropdown', () => {
-    component.ngOnInit();
     fixture.detectChanges();
 
-    const element: HTMLElement = fixture.nativeElement;
-    expect(element.querySelector('.mat-select-value').textContent).toContain('hello');
+    expect(component.selectedReportDate).toBe('2019-3');
+    expect(component.dataSource.length).toBe(1);
+    expect(component.dataSource[0].organizationName).toBe('SOME-ORG');
+  });
+
+  it('should update the report data when selecting different date', () => {
+    component.dateChanged('2019-2');
+    expect(component.dataSource[0].organizationName).toBe('ANOTHER-ORG');
   });
 
 });
@@ -63,10 +68,14 @@ class MockReportService {
     return of(dates);
   }
 
-  public getReportData(): Observable<AIReportElement[]> {
-
+  public getReportData(date: string): Observable<AIReportElement[]> {
     const reportElement = new AIReportElement();
-    reportElement.org = 'MyOrg';
+
+    if (date === '2019-3') {
+      reportElement.organizationName = 'SOME-ORG';
+    } else {
+      reportElement.organizationName = 'ANOTHER-ORG';
+    }
     reportElement.lowerEnvironmentMaxInstances = 3;
     reportElement.upperEnvironmentMaxInstances = 2;
 

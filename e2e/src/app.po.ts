@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import {$$, browser, by, element} from 'protractor';
 
 export class AppPage {
   navigateTo() {
@@ -6,10 +6,18 @@ export class AppPage {
   }
 
   getTitleText() {
-    return element(by.css('app-root h1')).getText() as Promise<string>;
+    return element(by.css('app-root h5')).getText() as Promise<string>;
   }
 
-  getReportTable() {
-    return element(by.css('ai-report-table'));
+  getReportTableRowCount() {
+    return $$('.report-element-row').count();
+  }
+
+  openReportDateOptions() {
+    element(by.css('.mat-select')).click();
+  }
+
+  getReportDateSelection(date) {
+    return element.all(by.cssContainingText('span.mat-option-text', date));
   }
 }

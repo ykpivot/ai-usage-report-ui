@@ -12,11 +12,15 @@ describe('workspace-project App', () => {
     page.navigateTo();
 
     expect(page.getTitleText()).toEqual('AI Usage Report');
-    expect(page.getReportTable().isPresent()).toBeTruthy();
+    expect(page.getReportTableRowCount()).toBeGreaterThan(20);
+
+    page.openReportDateOptions();
+    page.getReportDateSelection('2017-11').click();
+
+    expect(page.getReportTableRowCount()).toEqual(6);
   });
 
   afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
     expect(logs).not.toContain(jasmine.objectContaining({
       level: logging.Level.SEVERE,
