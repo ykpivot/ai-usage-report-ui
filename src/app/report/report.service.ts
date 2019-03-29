@@ -1,31 +1,30 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
 
-  API_URL = 'https://usage-data.cf.grogscave.net/v1/';
-
   constructor(private http: HttpClient) {
   }
 
   getReportData(date: string): Observable<AIReportElement[]> {
-    return this.http.get<AIReportElement[]>(`${this.API_URL}report/${this.convertDateFormat(date)}`);
+    return this.http.get<AIReportElement[]>(`${environment.apiUrl}report/${this.convertDateFormat(date)}`);
   }
 
   getReportAvailableDates(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.API_URL}report/availabledates`);
+    return this.http.get<string[]>(`${environment.apiUrl}report/availabledates`);
   }
 
   downloadSummaryReport(date: string): Observable<string> {
-    return this.downloadReport('billing', date, this.API_URL);
+    return this.downloadReport('billing', date, environment.apiUrl);
   }
 
   downloadDetailReport(date: string): Observable<string> {
-    return this.downloadReport('detail', date, this.API_URL);
+    return this.downloadReport('detail', date, environment.apiUrl);
   }
 
   private downloadReport(type: string, date: string, apiUrl): Observable<string> {
